@@ -3,6 +3,7 @@
 import React, { useState, useCallback } from 'react';
 import { msg, useMessages } from 'gt-next';
 import { useGame } from '@/context/GameContext';
+import { useMobile } from '@/hooks/useMobile';
 import { Tile } from '@/types/game';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -121,6 +122,10 @@ export function MobileTopBar({
 }) {
   const { state, setSpeed, setTaxRate, visualHour, saveCity } = useGame();
   const { stats, year, month, speed, taxRate, cityName } = state;
+  const { orientation, screenHeight } = useMobile();
+  // Compact landscape (phones): hide the secondary row, slim the main bar.
+  // Demand/tax remain available via the details dialog (tap the top bar).
+  const isCompactLandscape = orientation === 'landscape' && screenHeight > 0 && screenHeight < 500;
   const [showDetails, setShowDetails] = useState(false);
   const [showExitDialog, setShowExitDialog] = useState(false);
   const [showTaxSlider, setShowTaxSlider] = useState(false);
@@ -143,7 +148,7 @@ export function MobileTopBar({
     <>
       {/* Main Top Bar */}
       <Card className="fixed top-0 left-0 right-0 z-40 rounded-none border-x-0 border-t-0 bg-card/95 backdrop-blur-sm safe-area-top">
-        <div className="flex items-center justify-between px-3 py-1.5">
+        <div className={`flex items-center justify-between px-3 ${isCompactLandscape ? 'py-0.5' : 'py-1.5'}`}>
           {/* Left: City name, date, Pop/Funds stats */}
           <button
             className="flex items-center gap-3 min-w-0 active:opacity-70 p-0 m-0 mr-auto"
@@ -256,7 +261,8 @@ export function MobileTopBar({
 
         </div>
 
-        {/* Demand indicators row */}
+        {/* Demand indicators row (hidden in compact landscape — tap the top bar for details) */}
+        {!isCompactLandscape && (
         <div className="flex items-center justify-between px-3 py-1 border-t border-sidebar-border/50 bg-secondary/30">
           <div className="flex items-center gap-3">
             <DemandBar label="R" demand={stats.demand.residential} color="text-green-500" />
@@ -284,6 +290,7 @@ export function MobileTopBar({
             </span>
           </div>
         </div>
+        )}
 
         {/* Tax Slider Row */}
         {showTaxSlider && !selectedTile && (

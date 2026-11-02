@@ -48,8 +48,10 @@ export default function Game({ onExit }: { onExit?: () => void }) {
   const [navigationTarget, setNavigationTarget] = useState<{ x: number; y: number } | null>(null);
   const [viewport, setViewport] = useState<{ offset: { x: number; y: number }; zoom: number; canvasSize: { width: number; height: number } } | null>(null);
   const isInitialMount = useRef(true);
-  const { isMobileDevice, isSmallScreen } = useMobile();
+  const { isMobileDevice, isSmallScreen, orientation, screenHeight } = useMobile();
   const isMobile = isMobileDevice || isSmallScreen;
+  // Compact landscape on phones: slim top/bottom bars to maximize canvas space
+  const isCompactLandscape = orientation === 'landscape' && screenHeight > 0 && screenHeight < 500;
   const [showShareModal, setShowShareModal] = useState(false);
   const multiplayer = useMultiplayerOptional();
   
@@ -260,7 +262,7 @@ export default function Game({ onExit }: { onExit?: () => void }) {
           )}
           
           {/* Main canvas area - fills remaining space, with padding for top/bottom bars */}
-          <div className="flex-1 relative overflow-hidden" style={{ paddingTop: '72px', paddingBottom: '76px' }}>
+          <div className="flex-1 relative overflow-hidden" style={{ paddingTop: isCompactLandscape ? '38px' : '72px', paddingBottom: isCompactLandscape ? '56px' : '76px' }}>
             <CanvasIsometricGrid 
               overlayMode={overlayMode} 
               selectedTile={selectedTile} 

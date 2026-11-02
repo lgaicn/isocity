@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { msg, useMessages } from 'gt-next';
 import { useGame } from '@/context/GameContext';
+import { useMobile } from '@/hooks/useMobile';
 import { Tool, TOOL_INFO } from '@/types/game';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -249,6 +250,9 @@ interface MobileToolbarProps {
 
 export function MobileToolbar({ onOpenPanel, overlayMode = 'none', setOverlayMode }: MobileToolbarProps) {
   const { state, setTool, expandCity, shrinkCity } = useGame();
+  const { orientation, screenHeight } = useMobile();
+  // Compact landscape (phones): slimmer toolbar to maximize canvas space
+  const isCompactLandscape = orientation === 'landscape' && screenHeight > 0 && screenHeight < 500;
   const { selectedTool, stats } = state;
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
   const [showMenu, setShowMenu] = useState(false);
@@ -281,8 +285,8 @@ export function MobileToolbar({ onOpenPanel, overlayMode = 'none', setOverlayMod
       {/* Bottom Toolbar */}
       <div className="fixed bottom-0 left-0 right-0 z-50 safe-area-bottom">
         <Card className="rounded-none border-x-0 border-b-0 bg-card/95 backdrop-blur-sm">
-          {/* Selected tool info - now above the toolbar */}
-          {selectedTool && TOOL_INFO[selectedTool] && (
+          {/* Selected tool info - hidden in compact landscape to save vertical space */}
+          {selectedTool && TOOL_INFO[selectedTool] && !isCompactLandscape && (
             <div className="flex items-center justify-between px-4 py-1.5 border-b border-sidebar-border/50 bg-secondary/30 text-xs">
               <span className="text-foreground font-medium">
                 {m(TOOL_INFO[selectedTool].name)}
@@ -295,12 +299,12 @@ export function MobileToolbar({ onOpenPanel, overlayMode = 'none', setOverlayMod
             </div>
           )}
 
-          <div className="flex items-center justify-around px-2 py-2 gap-1">
+          <div className={`flex items-center justify-around px-2 ${isCompactLandscape ? 'py-1' : 'py-2'} gap-1`}>
             {/* Quick access tools */}
             <Button
               variant={selectedTool === 'select' ? 'default' : 'ghost'}
               size="icon"
-              className="h-11 w-11"
+              className={isCompactLandscape ? 'h-9 w-9' : 'h-11 w-11'}
               onClick={() => handleToolSelect('select')}
             >
               {QuickToolIcons.select}
@@ -309,7 +313,7 @@ export function MobileToolbar({ onOpenPanel, overlayMode = 'none', setOverlayMod
             <Button
               variant={selectedTool === 'bulldoze' ? 'default' : 'ghost'}
               size="icon"
-              className="h-11 w-11 text-red-400"
+              className={isCompactLandscape ? 'h-9 w-9 text-red-400' : 'h-11 w-11 text-red-400'}
               onClick={() => handleToolSelect('bulldoze')}
             >
               {QuickToolIcons.bulldoze}
@@ -318,7 +322,7 @@ export function MobileToolbar({ onOpenPanel, overlayMode = 'none', setOverlayMod
             <Button
               variant={selectedTool === 'road' ? 'default' : 'ghost'}
               size="icon"
-              className="h-11 w-11"
+              className={isCompactLandscape ? 'h-9 w-9' : 'h-11 w-11'}
               onClick={() => handleToolSelect('road')}
             >
               {QuickToolIcons.road}
@@ -327,7 +331,7 @@ export function MobileToolbar({ onOpenPanel, overlayMode = 'none', setOverlayMod
             <Button
               variant={selectedTool === 'rail' ? 'default' : 'ghost'}
               size="icon"
-              className="h-11 w-11"
+              className={isCompactLandscape ? 'h-9 w-9' : 'h-11 w-11'}
               onClick={() => handleToolSelect('rail')}
             >
               {QuickToolIcons.rail}
@@ -337,7 +341,7 @@ export function MobileToolbar({ onOpenPanel, overlayMode = 'none', setOverlayMod
             <Button
               variant={selectedTool === 'zone_residential' ? 'default' : 'ghost'}
               size="icon"
-              className="h-11 w-11"
+              className={isCompactLandscape ? 'h-9 w-9' : 'h-11 w-11'}
               onClick={() => handleToolSelect('zone_residential')}
             >
               {QuickToolIcons.zone_residential}
@@ -346,7 +350,7 @@ export function MobileToolbar({ onOpenPanel, overlayMode = 'none', setOverlayMod
             <Button
               variant={selectedTool === 'zone_commercial' ? 'default' : 'ghost'}
               size="icon"
-              className="h-11 w-11"
+              className={isCompactLandscape ? 'h-9 w-9' : 'h-11 w-11'}
               onClick={() => handleToolSelect('zone_commercial')}
             >
               {QuickToolIcons.zone_commercial}
@@ -355,7 +359,7 @@ export function MobileToolbar({ onOpenPanel, overlayMode = 'none', setOverlayMod
             <Button
               variant={selectedTool === 'zone_industrial' ? 'default' : 'ghost'}
               size="icon"
-              className="h-11 w-11"
+              className={isCompactLandscape ? 'h-9 w-9' : 'h-11 w-11'}
               onClick={() => handleToolSelect('zone_industrial')}
             >
               {QuickToolIcons.zone_industrial}
@@ -365,7 +369,7 @@ export function MobileToolbar({ onOpenPanel, overlayMode = 'none', setOverlayMod
             <Button
               variant={showMenu ? 'default' : 'secondary'}
               size="icon"
-              className="h-11 w-11"
+              className={isCompactLandscape ? 'h-9 w-9' : 'h-11 w-11'}
               onClick={() => setShowMenu(!showMenu)}
             >
               {showMenu ? (
