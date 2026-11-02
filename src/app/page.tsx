@@ -496,14 +496,6 @@ export default function HomePage() {
             </Button>
 
             <Button
-              onClick={() => setShowCoopModal(true)}
-              variant="outline"
-              className="w-full py-4 sm:py-6 text-lg sm:text-xl font-light tracking-wide bg-white/5 hover:bg-white/15 text-white/60 hover:text-white border border-white/15 rounded-none transition-all duration-300"
-            >
-              <T>Co-op</T>
-            </Button>
-
-            <Button
               onClick={async () => {
                 // Clear any room code from URL to prevent multiplayer conflicts
                 if (window.location.search.includes('room=')) {
@@ -602,13 +594,6 @@ export default function HomePage() {
                 className="w-64 py-8 text-2xl font-light tracking-wide bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-none transition-all duration-300"
               >
                 {hasSaved ? <T>Continue</T> : <T>New Game</T>}
-              </Button>
-              <Button
-                onClick={() => setShowCoopModal(true)}
-                variant="outline"
-                className="w-64 py-8 text-2xl font-light tracking-wide bg-white/5 hover:bg-white/15 text-white/60 hover:text-white border border-white/15 rounded-none transition-all duration-300"
-              >
-                <T>Co-op</T>
               </Button>
               <Button
                 onClick={async () => {

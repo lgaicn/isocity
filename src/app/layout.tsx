@@ -1,7 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Analytics } from '@vercel/analytics/next';
 import './globals.css';
-import { getLocale } from "gt-next/server";
 import { GTProvider } from "gt-next";
 
 export const metadata: Metadata = {
@@ -51,7 +49,7 @@ export const viewport: Viewport = {
 
 export default async function RootLayout({ children }: {children: React.ReactNode;}) {
   return (
-  <html className="dark" lang={await getLocale()}>
+  <html className="dark" lang="zh-CN">
       <head>
         <meta name="mobile-web-app-capable" content="yes" />
         <link rel="apple-touch-icon" href="/assets/buildings/residential.png" />
@@ -69,7 +67,7 @@ export default async function RootLayout({ children }: {children: React.ReactNod
         type="image/webp" />
 
       </head>
-      <body className="bg-background text-foreground antialiased font-sans overflow-hidden"><GTProvider>{children}<Analytics /></GTProvider></body>
+      <body className="bg-background text-foreground antialiased font-sans overflow-hidden"><GTProvider locale="zh" region="CN">{children}</GTProvider></body>
     </html>
   );
 }
