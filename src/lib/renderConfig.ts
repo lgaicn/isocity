@@ -753,7 +753,7 @@ export const SPRITE_PACKS: SpritePack[] = [
 ];
 
 // Default sprite pack ID
-export const DEFAULT_SPRITE_PACK_ID = 'sprites4';
+export const DEFAULT_SPRITE_PACK_ID = 'sprites4-china';
 
 // Get a sprite pack by ID
 export function getSpritePack(id: string): SpritePack {
