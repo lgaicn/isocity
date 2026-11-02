@@ -44,4 +44,4 @@ Set-Location android
 1. **签名**：生成 keystore，在 `android/app/build.gradle` 配置 signingConfigs，出 release 包
 2. **应用名与图标**：`capacitor.config.ts` 的 appName / `android/app/src/main/res/` 各密度图标与启动图
 3. **包名**：`capacitor.config.ts` appId + `android/app/build.gradle` applicationId（当前为 `com.gufeng.city` 占位）
-4. **上架合规**：软著、版号（含内购）、隐私政策
+4. **合规**：非商用、仅自建服务器分发（不上架商店）→ 无需软著/版号，debug 签名 APK 可直接下载分发；后续若加内购/广告再评估
