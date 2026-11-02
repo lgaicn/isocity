@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">IsoCity</string>
+    <string name="title_activity_main">IsoCity</string>
+    <string name="package_name">com.gufeng.city</string>
+    <string name="custom_url_scheme">com.gufeng.city</string>
+</resources>
